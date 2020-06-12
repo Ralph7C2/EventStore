@@ -1492,7 +1492,6 @@ namespace EventStore.Core {
 				_alwaysKeepScavenged,
 				_gossipOnSingleNode,
 				_skipIndexScanOnReads,
-				_reduceFileCachePressure,
 				_initializationThreads,
 				_faultOutOfOrderProjections,
 				_maxAutoMergeIndexLevel,
