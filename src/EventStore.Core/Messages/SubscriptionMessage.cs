@@ -42,5 +42,35 @@ namespace EventStore.Core.Messages {
 				get { return TypeId; }
 			}
 		}
+		
+		public class PersistentSubscriptionsRestart : Message {
+			private static readonly int TypeId = System.Threading.Interlocked.Increment(ref NextMsgId);
+
+			public override int MsgTypeId {
+				get { return TypeId; }
+			}
+			
+			public IEnvelope ReplyEnvelope { get; }
+			
+			public PersistentSubscriptionsRestart(IEnvelope replyEnvelope) {
+				ReplyEnvelope = replyEnvelope;
+			}
+		}
+
+		public class PersistentSubscriptionsRestarting : Message {
+			private static readonly int TypeId = System.Threading.Interlocked.Increment(ref NextMsgId);
+
+			public override int MsgTypeId {
+				get { return TypeId; }
+			}
+		}
+
+		public class InvalidPersistentSubscriptionsRestart : Message {
+			private static readonly int TypeId = System.Threading.Interlocked.Increment(ref NextMsgId);
+
+			public override int MsgTypeId {
+				get { return TypeId; }
+			}
+		}
 	}
 }

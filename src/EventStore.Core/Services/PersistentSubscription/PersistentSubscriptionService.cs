@@ -19,6 +19,7 @@ namespace EventStore.Core.Services.PersistentSubscription {
 		IHandle<SystemMessage.BecomeShuttingDown>,
 		IHandle<TcpMessage.ConnectionClosed>,
 		IHandle<SystemMessage.BecomeLeader>,
+		IHandle<SubscriptionMessage.PersistentSubscriptionsRestart>,
 		IHandle<SubscriptionMessage.PersistentSubscriptionTimerTick>,
 		IHandle<ClientMessage.ReplayParkedMessages>,
 		IHandle<ClientMessage.ReplayParkedMessage>,
@@ -90,12 +91,20 @@ namespace EventStore.Core.Services.PersistentSubscription {
 
 		public void Handle(SystemMessage.BecomeLeader message) {
 			Log.Debug("Persistent subscriptions Became Leader so now handling subscriptions");
+			StartSubscriptions();
+		}
+		
+		public void Handle(SubscriptionMessage.PersistentSubscriptionsRestart message) {
+			Log.Debug("Persistent Subscriptions are being restarted");
+			StartSubscriptions();
+		}
+
+		private void StartSubscriptions() {
 			InitToEmpty();
 			_handleTick = true;
 			_bus.Publish(_tickRequestMessage);
 			LoadConfiguration(Start);
 		}
-
 
 		public void Handle(SystemMessage.BecomeShuttingDown message) {
 			ShutdownSubscriptions();
